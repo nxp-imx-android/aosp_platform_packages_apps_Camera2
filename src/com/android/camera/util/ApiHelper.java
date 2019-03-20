@@ -65,6 +65,7 @@ public class ApiHelper {
     public static final boolean IS_NEXUS_4 = "mako".equalsIgnoreCase(Build.DEVICE);
     public static final boolean IS_NEXUS_5 = "LGE".equalsIgnoreCase(Build.MANUFACTURER)
             && "hammerhead".equalsIgnoreCase(Build.DEVICE);
+    public static final boolean IS_NXP_DEVICE = "freescale".equalsIgnoreCase(Build.MANUFACTURER);
     public static final boolean IS_NEXUS_6 = "motorola".equalsIgnoreCase(Build.MANUFACTURER)
             && "shamu".equalsIgnoreCase(Build.DEVICE);
     public static final boolean IS_NEXUS_9 = "htc".equalsIgnoreCase(Build.MANUFACTURER)
