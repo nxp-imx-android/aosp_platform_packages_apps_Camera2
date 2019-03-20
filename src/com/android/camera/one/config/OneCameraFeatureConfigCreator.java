@@ -85,6 +85,11 @@ public class OneCameraFeatureConfigCreator {
                     return CaptureSupportLevel.LEGACY_JPEG;
                 }
 
+                // nxp device can provide jpeg.
+                if (ApiHelper.IS_NXP_DEVICE) {
+                    return CaptureSupportLevel.LEGACY_JPEG;
+                }
+
                 // No matter if L or L MR1, the N5 does not currently support
                 // ZSL due to HAL bugs. The latest one causes random preview
                 // freezes even on MR1, see b/19565931.
