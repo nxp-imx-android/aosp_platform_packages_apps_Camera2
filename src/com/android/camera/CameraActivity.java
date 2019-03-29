@@ -1975,14 +1975,8 @@ public class CameraActivity extends QuickActivity
 
         // TODO: Handle this in OrientationManager.
         // Auto-rotate off
-        if (Settings.System.getInt(getContentResolver(),
-                Settings.System.ACCELEROMETER_ROTATION, 0) == 0) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
-            mAutoRotateScreen = false;
-        } else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
-            mAutoRotateScreen = true;
-        }
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        mAutoRotateScreen = false;
 
         // Foreground event logging.  ACTION_STILL_IMAGE_CAMERA and
         // INTENT_ACTION_STILL_IMAGE_CAMERA_SECURE are double logged due to
