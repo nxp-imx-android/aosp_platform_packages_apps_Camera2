@@ -19,6 +19,7 @@ package com.android.camera;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.content.pm.ActivityInfo;
 
 public class ProxyLauncher extends Activity {
 
@@ -27,6 +28,7 @@ public class ProxyLauncher extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         if (savedInstanceState == null) {
                 Intent intent = getIntent().getParcelableExtra(Intent.EXTRA_INTENT);
                 startActivityForResult(intent, 0);
