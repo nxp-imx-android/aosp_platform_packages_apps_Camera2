@@ -16,10 +16,21 @@
 
 package com.android.camera.util;
 
+import java.lang.reflect.Method;
+
 public final class SystemProperties {
 
     public static String get(String key, String defaultValue) {
-        return defaultValue;
+        String value = defaultValue;
+        try {
+            Class<?> cls = Class.forName("android.os.SystemProperties");
+            Method get = cls.getMethod("get", String.class, String.class);
+            value = (String)(get.invoke(null, key, defaultValue));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return value;
     }
 
     private SystemProperties() {
