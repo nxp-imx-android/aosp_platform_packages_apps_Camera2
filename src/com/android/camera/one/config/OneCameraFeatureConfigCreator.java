@@ -26,6 +26,7 @@ import com.android.camera.one.config.OneCameraFeatureConfig.HdrPlusSupportLevel;
 import com.android.camera.util.ApiHelper;
 import com.android.camera.util.GcamHelper;
 import com.android.camera.util.GservicesHelper;
+import com.android.camera.util.SystemProperties;
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
 
@@ -66,6 +67,12 @@ public class OneCameraFeatureConfigCreator {
                 if (override.isPresent()) {
                     Log.i(TAG, "Camera support level override: " + override.get().name());
                     return override.get();
+                }
+
+                String hardware = SystemProperties.get("ro.hardware", "");
+                if(hardware.equals("nxp")) {
+                    Log.i(TAG, "nxp device, use CaptureSupportLevel.LEGACY_JPEG");
+                    return CaptureSupportLevel.LEGACY_JPEG;
                 }
 
                 Integer supportedLevel = characteristics
