@@ -1161,10 +1161,19 @@ public class VideoModule extends CameraModule
         }
 
         // Set maximum file size.
-        long maxFileSize = mActivity.getStorageSpaceBytes() - Storage.LOW_STORAGE_THRESHOLD_BYTES;
+        // Mp4 muxer will hold data to write when stop record, the data size will go up with the file size.
+        // If the storage is large such as 8GB, the data hold will more than 50MB.
+        // So we reserve 10% storage space, or the mp4 clip may not be complete.
+        long storageSpace = mActivity.getStorageSpaceBytes();
+        long spaceLeft = Storage.LOW_STORAGE_THRESHOLD_BYTES;
+        if (spaceLeft < storageSpace/10)
+          spaceLeft = storageSpace/10;
+
+        long maxFileSize = storageSpace - spaceLeft;
         if (requestedSizeLimit > 0 && requestedSizeLimit < maxFileSize) {
             maxFileSize = requestedSizeLimit;
         }
+        Log.i(TAG, "maxFileSize " + maxFileSize + " spaceLeft " + spaceLeft + " storageSpace " + storageSpace);
 
         try {
             mMediaRecorder.setMaxFileSize(maxFileSize);
