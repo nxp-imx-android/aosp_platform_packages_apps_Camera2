@@ -1166,8 +1166,8 @@ public class VideoModule extends CameraModule
         // So we reserve 10% storage space, or the mp4 clip may not be complete.
         long storageSpace = mActivity.getStorageSpaceBytes();
         long spaceLeft = Storage.LOW_STORAGE_THRESHOLD_BYTES;
-        if (spaceLeft < storageSpace/10)
-          spaceLeft = storageSpace/10;
+        if (spaceLeft < storageSpace/8)
+          spaceLeft = storageSpace/8;
 
         long maxFileSize = storageSpace - spaceLeft;
         if (requestedSizeLimit > 0 && requestedSizeLimit < maxFileSize) {
