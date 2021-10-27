@@ -1248,15 +1248,21 @@ public class CameraAppUI implements ModeListView.ModeSwitchListener,
          * facing setting so we default to opening the camera in back facing
          * camera, and can save this flash support value again.
          */
-        if (hardwareSpec != null) {
-            if (!mController.getSettingsManager().isSet(SettingsManager.SCOPE_GLOBAL,
+
+        SettingsManager settingsManager = mController.getSettingsManager();
+        if(settingsManager == null) {
+            Log.w(TAG, "onChangeCamera, settingsManager is null");
+        }
+
+        if ((hardwareSpec != null) && (settingsManager != null)) {
+            if (!settingsManager.isSet(SettingsManager.SCOPE_GLOBAL,
                     Keys.KEY_FLASH_SUPPORTED_BACK_CAMERA)) {
-                mController.getSettingsManager().set(SettingsManager.SCOPE_GLOBAL,
+                settingsManager.set(SettingsManager.SCOPE_GLOBAL,
                         Keys.KEY_FLASH_SUPPORTED_BACK_CAMERA,
                         hardwareSpec.isFlashSupported());
             }
             /** Similar logic applies to the HDR option. */
-            if (!mController.getSettingsManager().isSet(SettingsManager.SCOPE_GLOBAL,
+            if (!settingsManager.isSet(SettingsManager.SCOPE_GLOBAL,
                     Keys.KEY_HDR_SUPPORT_MODE_BACK_CAMERA)) {
                 String hdrSupportMode;
                 if (hardwareSpec.isHdrPlusSupported()) {
@@ -1267,7 +1273,7 @@ public class CameraAppUI implements ModeListView.ModeSwitchListener,
                 } else {
                     hdrSupportMode = getResourceString(R.string.pref_camera_hdr_supportmode_none);
                 }
-                mController.getSettingsManager().set(SettingsManager.SCOPE_GLOBAL,
+                settingsManager.set(SettingsManager.SCOPE_GLOBAL,
                         Keys.KEY_HDR_SUPPORT_MODE_BACK_CAMERA, hdrSupportMode);
             }
         }
