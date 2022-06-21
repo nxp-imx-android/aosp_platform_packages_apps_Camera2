@@ -137,6 +137,9 @@ public class CaptureModule extends CameraModule implements
      */
     private final boolean mStickyGcamCamera;
 
+    /** run flag for new thread after open camera. */
+    private static boolean executor_flag = false;
+
     /** Controller giving us access to other services. */
     private final AppController mAppController;
     /** The applications settings manager. */
@@ -256,6 +259,7 @@ public class CaptureModule extends CameraModule implements
         @Override
         public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
             Log.d(TAG, "onSurfaceTextureDestroyed");
+            executor_flag = false;
             synchronized (mSurfaceTextureLock) {
                 mPreviewSurfaceTexture = null;
             }
@@ -772,6 +776,7 @@ public class CaptureModule extends CameraModule implements
 
     @Override
     public void destroy() {
+        executor_flag = false;
         mSoundPlayer.release();
         mMediaActionSound.release();
         mCameraHandler.getLooper().quitSafely();
@@ -1453,7 +1458,7 @@ public class CaptureModule extends CameraModule implements
                   public void onCameraOpened(@Nonnull final OneCamera camera) {
                       Log.d(TAG, "onCameraOpened: " + camera);
                       mCamera = camera;
-
+                      executor_flag = true;
                       // A race condition exists where the camera may be in the process
                       // of opening (blocked), but the activity gets destroyed. If the
                       // preview is initialized or callbacks are invoked on a destroyed
@@ -1484,8 +1489,11 @@ public class CaptureModule extends CameraModule implements
                       mMainThread.execute(new Runnable() {
                           @Override
                           public void run() {
-                              mAppController.getCameraAppUI().onChangeCamera();
-                              mAppController.getButtonManager().enableCameraButton();
+                              Log.d(TAG, "further settings after openCamera, run flag:" + executor_flag);
+                              if (executor_flag) {
+                                  mAppController.getCameraAppUI().onChangeCamera();
+                                  mAppController.getButtonManager().enableCameraButton();
+                              }
                           }
                       });
 
