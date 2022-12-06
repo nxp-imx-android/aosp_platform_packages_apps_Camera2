@@ -345,6 +345,7 @@ public class BottomBar extends FrameLayout {
         final int measureWidth = MeasureSpec.getSize(widthMeasureSpec);
         final int measureHeight = MeasureSpec.getSize(heightMeasureSpec);
         if (measureWidth == 0 || measureHeight == 0) {
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
             return;
         }
 
