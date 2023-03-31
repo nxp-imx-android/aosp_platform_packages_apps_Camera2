@@ -52,9 +52,9 @@ public class GservicesHelper {
     public static int getMaxAllowedImageReaderCount(ContentResolver contentResolver) {
         String low_ram = SystemProperties.get("ro.config.low_ram", "false");
         if(low_ram.equals("false"))
-            return 15;
+            return 4;
         else
-            return 7;
+            return 2;
     }
 
     public static boolean useCamera2ApiThroughPortabilityLayer(ContentResolver contentResolver) {
