@@ -69,6 +69,11 @@ public class ExifUtil {
         }
         if (location.isPresent()) {
             addLocationToExif(location.get());
+        } else {
+            mExif.deleteTag(ExifInterface.TAG_GPS_LATITUDE);
+            mExif.deleteTag(ExifInterface.TAG_GPS_LATITUDE_REF);
+            mExif.deleteTag(ExifInterface.TAG_GPS_LONGITUDE);
+            mExif.deleteTag(ExifInterface.TAG_GPS_LONGITUDE_REF);
         }
     }
 
