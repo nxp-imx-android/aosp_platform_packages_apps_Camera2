@@ -2134,6 +2134,14 @@ public class CameraActivity extends QuickActivity
         final boolean locationRecordingEnabled =
                 mSettingsManager.getBoolean(SettingsManager.SCOPE_GLOBAL, Keys.KEY_RECORD_LOCATION);
         mLocationManager.recordLocation(locationRecordingEnabled);
+        ExifInterface mExif = new ExifInterface();
+        if (!locationRecordingEnabled) {
+            mExif.deleteTag(ExifInterface.TAG_GPS_LATITUDE);
+            mExif.deleteTag(ExifInterface.TAG_GPS_LATITUDE_REF);
+            mExif.deleteTag(ExifInterface.TAG_GPS_LONGITUDE);
+            mExif.deleteTag(ExifInterface.TAG_GPS_LONGITUDE_REF);
+            Log.v(TAG, "Since location is not saved, delete the relevant GPS TAGs");
+        }
 
         final int previewVisibility = getPreviewVisibility();
         updatePreviewRendering(previewVisibility);
